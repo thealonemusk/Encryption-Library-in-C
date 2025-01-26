@@ -19,28 +19,35 @@ void printbin(int8 *input , const int16 size){
         }
         printf("%.02x" , *p);
     }
-    
+    printf("\n");
+
+    return; 
 }
 int main(){
-    Arcfour *rc4;
+    // Arcfour *rc4;
     int16 skey , stext;
-    char *key , *from , *to , *encrypted , *decrypted;
+    char *key , *from , *encrypted , *decrypted;
+    
+    key = from = encrypted = decrypted = 0 ; 
 
-    key = "tomatoes"; /* 8 bits -> 2048 bits*/
+    from = key ; 
+
+    skey= stext = 0 ; 
+
+    key = "Julieus Ceaser"; /* 8 bits -> 2048 bits*/
     skey  =  strlen(key);
     from = "Et tu, Brute?";
     stext = strlen(from);
 
     printf("Inititalising encryption ..."); F;
 
-    rc4 = rc4init(key , skey );
+    // rc4 = rc4init(key , skey );
 
     printf ("done\n");
-    printf("'%s' \n ->" , from );
+    printf("'%s' \n ->" , from);
 
-    encrypted = rc4encrypt(from , stext);
-
-    
-
+    // encrypted = rc4encrypt(from , stext);
+    printbin((int8 *)key , skey);
+    return 0 ; 
 }
 
