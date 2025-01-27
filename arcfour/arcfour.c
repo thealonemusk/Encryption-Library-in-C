@@ -48,3 +48,17 @@ int8 rc4byte(Arcfour* p){
     p->k = p->s[temp1];
     return p->k;
 }
+
+int8 *rc4encrypt(Arcfour *p ,int8* cleartext ,int16 size){
+    int8 *ciphertext;
+    int16 x; 
+    ciphertext = (int8 *)malloc(size+1);
+    if(!ciphertext){
+        assert_perror(errno);
+    }
+    for ( int x = 0 ; x < size ; x++){
+        ciphertext[x] = cleartext[x] ^ rc4byte(p);
+    }
+
+    return ciphertext;
+}

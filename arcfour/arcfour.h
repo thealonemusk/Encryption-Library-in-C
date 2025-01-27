@@ -27,7 +27,7 @@ typedef struct s_arcfour Arcfour;
 Arcfour *rc4init(int8*, int16);
 int8 rc4byte(Arcfour*);
 
-int8 *rc4encrypt(int8 *, int16);
+int8 *rc4encrypt(Arcfour* , int8*, int16);
 
 
 
