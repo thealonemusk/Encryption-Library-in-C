@@ -1,3 +1,9 @@
+#Running command 
+-> make clean 
+-> make
+-> ./example
+
+
 # Implementation of Rc4 encryption algorithm as Library in C 
 
 
