@@ -2,7 +2,7 @@
 
 #include "arcfour.h"
 
-Arcfour *rc4init(int8* key, int16 size){
+export Arcfour *rc4init(int8* key, int16 size){
     int16 x; 
     int8 temp2 , temp1;
     Arcfour *p; 
@@ -49,7 +49,7 @@ int8 rc4byte(Arcfour* p){
     return p->k;
 }
 
-int8 *rc4encrypt(Arcfour *p ,int8* cleartext ,int16 size){
+export int8 *rc4encrypt(Arcfour *p ,int8* cleartext ,int16 size){
     int8 *ciphertext;
     int16 x; 
     ciphertext = (int8 *)malloc(size+1);

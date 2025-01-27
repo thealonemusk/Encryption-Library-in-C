@@ -6,8 +6,9 @@
 #include <string.h>
 #include <assert.h>
 #include <errno.h>
-
+#define export  __attribute__((visibility("default")))
 #define rc4decrypt(x,y) rc4encrypt(x,y)
+#define rc4uninit(x) free(x)
 
 typedef unsigned char int8;
 typedef unsigned short int int16;
@@ -24,10 +25,11 @@ typedef struct s_arcfour Arcfour;
 
 
 
-Arcfour *rc4init(int8*, int16);
+export Arcfour *rc4init(int8*, int16);
 int8 rc4byte(Arcfour*);
 
-int8 *rc4encrypt(Arcfour* , int8*, int16);
+export int8 *rc4encrypt(Arcfour* , int8*, int16);
+
 
 
 

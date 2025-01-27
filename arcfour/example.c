@@ -46,8 +46,15 @@ int main(){
     printf ("done\n");
     printf("'%s' \n ->" , from);
 
-    // encrypted = rc4encrypt(from , stext);
-    printbin(rc4->s , skey);
+    encrypted = rc4encrypt(from , skey , stext);
+    printbin(encrypted, stext);
+    rc4uninit(rc4);
+    printf("Inititalising encryption ..."); F;
+
+    rc4 = rc4init((int8*)key, skey);
+
+    printf ("done\n");
+    
     return 0 ; 
 }
 
