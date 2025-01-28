@@ -40,21 +40,26 @@ int main(){
     stext = strlen(from);
 
     printf("Inititalising encryption ..."); F;
-
     rc4 = rc4init((int8*)key, skey);
-
     printf ("done\n");
-    printf("'%s' \n ->" , from);
 
+    printf("'%s' \n ->" , from);
     encrypted = rc4encrypt(from , skey , stext);
     printbin(encrypted, stext);
+
     rc4uninit(rc4);
+
     printf("Inititalising encryption ..."); F;
-
     rc4 = rc4init((int8*)key, skey);
-
     printf ("done\n");
-    
+
+
+
+ 
+    decrypted = rc4decrypt(encrypted , stext);
+    printf("'   ->   %s' \n" , decrypted);
+    rc4uninit(rc4);
+
     return 0 ; 
 }
 
