@@ -1,5 +1,3 @@
-/* example.c */
-
 #include "arcfour.h"
 
 void printbin(int8 *input, const int16 size) {

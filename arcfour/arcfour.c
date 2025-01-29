@@ -1,18 +1,14 @@
-/* arcfour.c */
-
 #include "arcfour.h"
 
 export Arcfour *rc4init(int8* key, int16 size) {
     int8 temp1, temp2;
     Arcfour *p;
 
-    // Allocate memory for the Arcfour structure
     if (!(p = malloc(sizeof(struct s_arcfour)))) {
         perror("Memory allocation failed");
         exit(EXIT_FAILURE);
     }
 
-    // Initialize state array
     for (int x = 0; x < 256; x++) {
         p->s[x] = x;
     }
@@ -20,7 +16,6 @@ export Arcfour *rc4init(int8* key, int16 size) {
     temp1 = temp2 = 0;
     p->i = p->j = 0;
 
-    // Key-scheduling algorithm
     for (p->i = 0; p->i < 256; p->i++) {
         temp1 = p->i % size;
         temp2 = (p->j + p->s[p->i] + key[temp1]) % 256;
