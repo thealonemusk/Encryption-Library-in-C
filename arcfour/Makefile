@@ -1,12 +1,12 @@
 CC = gcc
 CFLAGS = -Wall -O2 -fPIC
 TARGET = example
-LIB = arcfour.so
+LIB = libarcfour.so
 
 all: $(LIB) $(TARGET)
 
 $(TARGET): example.o
-	$(CC) example.o -o $(TARGET) -L. -larcfour -Wall -O2
+	$(CC) example.o -o $(TARGET) -L. -larcfour $(CFLAGS)
 
 $(LIB): arcfour.o
 	$(CC) -shared -o $(LIB) arcfour.o -ldl -D_GNU_SOURCE
