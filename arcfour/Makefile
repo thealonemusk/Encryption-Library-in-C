@@ -1,16 +1,18 @@
-all: arcfour example 
+CC = gcc
+CFLAGS = -Wall -O2 -fPIC
+TARGET = example
+LIB = arcfour.so
 
-example: example.o
-	gcc arcfour.o example.o -o example -Wall -O2
-example.o: example.c
-	gcc -c -O2 -Wall example.c
+all: $(LIB) $(TARGET)
 
+$(TARGET): example.o
+	$(CC) example.o -o $(TARGET) -L. -larcfour -Wall -O2
 
-arcfour: arcfour.o 
-	gcc arcfour.o -o arcfour.so -O2 -Wall -fPIC -shared -ldl -D_GNU_SOURCE
+$(LIB): arcfour.o
+	$(CC) -shared -o $(LIB) arcfour.o -ldl -D_GNU_SOURCE
 
-arcfour.o: arcfour.c
-	gcc -c -O2 -Wall arcfour.c
+%.o: %.c
+	$(CC) -c $< -o $@ $(CFLAGS)
 
 clean:
-	rm -f *.o *.so example
+	rm -f *.o *.so $(TARGET)

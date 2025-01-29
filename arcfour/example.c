@@ -1,65 +1,45 @@
 /* example.c */
 
 #include "arcfour.h"
-#define F fflush(stdout)
-int main (void);
 
-// ef20 ac12
-
-void printbin(int8 *input , const int16 size){
-    int16 i;
-    int8 *p;
-    // i = 32 aa
-    // i = 31 bb
-    assert(size>0);
-
-    for (i = size , p = input ; i ; i-- , p++){
-        if(!((i+1) % 2 )){
+void printbin(int8 *input, const int16 size) {
+    for (int16 i = 0; i < size; i++) {
+        if (i > 0 && i % 2 == 0) {
             printf(" ");
         }
-        printf("%.02x" , *p);
+        printf("%.02x", input[i]);
     }
     printf("\n");
-
-    return; 
 }
-int main(){
+
+int main() {
     Arcfour *rc4;
-    int16 skey , stext;
-    char *key , *from , *encrypted , *decrypted;
-    
-    key = from = encrypted = decrypted = 0 ; 
+    int16 skey, stext;
+    char *key = "Julieus Ceaser";
+    char *from = "Et tu, Brute?";
+    int8 *encrypted, *decrypted;
 
-    from = key ; 
-
-    skey= stext = 0 ; 
-
-    key = "Julieus Ceaser"; /* 8 bits -> 2048 bits*/
-    skey  =  strlen(key);
-    from = "Et tu, Brute?";
+    skey = strlen(key);
     stext = strlen(from);
 
-    printf("Inititalising encryption ..."); F;
+    printf("Initializing encryption...\n");
     rc4 = rc4init((int8*)key, skey);
-    printf ("done\n");
 
-    printf("'%s' \n ->" , from);
-    encrypted = rc4encrypt(from , skey , stext);
+    printf("'%s' \n -> ", from);
+    encrypted = rc4encrypt(rc4, (int8*)from, stext);
     printbin(encrypted, stext);
 
     rc4uninit(rc4);
 
-    printf("Inititalising encryption ..."); F;
+    printf("Initializing decryption...\n");
     rc4 = rc4init((int8*)key, skey);
-    printf ("done\n");
 
+    decrypted = rc4decrypt(rc4, encrypted, stext);
+    printf("Decrypted -> '%s'\n", decrypted);
 
-
- 
-    decrypted = rc4decrypt(encrypted , stext);
-    printf("'   ->   %s' \n" , decrypted);
+    free(encrypted);
+    free(decrypted);
     rc4uninit(rc4);
 
-    return 0 ; 
+    return 0;
 }
-
