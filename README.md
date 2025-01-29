@@ -1,19 +1,130 @@
-#Running command 
--> make clean 
--> make
--> ./example
+# RC4 Encryption Library
 
+This repository contains a simple implementation of an RC4 encryption library written in C. It provides functions for initializing the RC4 cipher, encrypting plaintext, and decrypting ciphertext using the same function due to the symmetric nature of the RC4 algorithm.
 
-# Implementation of Rc4 encryption algorithm as Library in C 
+---
 
+## Features
+- **RC4 Initialization**: Sets up the key schedule.
+- **RC4 Encryption/Decryption**: Performs encryption and decryption using XOR-based stream generation.
+- **Shared Library**: The library is compiled into a shared object file (`libarcfour.so`) for easy reuse.
+- **Example Program**: A simple example program (`example.c`) demonstrates the library in action.
 
+---
 
-RC4 is a stream cipher designed by Ron Rivest in 1987. It has been widely used in various protocols and standards such as WEP, WPA, SSL/TLS, and Microsoft Office. However, multiple vulnerabilities have been discovered in RC4, rendering it insecure for modern use. Attacks on RC4 have shown that the initial bytes of the keystream are biased and can be used to recover the secret key, especially when the key is reused across multiple messages.
+## Requirements
+- GCC (GNU Compiler Collection)
+- Linux or Unix-based system
 
-The RC4 algorithm works by initializing a 256-byte permutation array S based on the secret key, and then generating a keystream byte-by-byte by swapping elements in S. This keystream is then XORed with the plaintext to produce the ciphertext. However, the weak key schedule of RC4 allows attackers to exploit statistical biases in the initial keystream bytes to mount practical attacks, particularly on protocols like WEP that reuse the same key.
+---
 
-Due to these vulnerabilities, the use of RC4 has been prohibited in TLS/SSL by the IETF, and vendors like Microsoft and Mozilla have recommended disabling it. Several attempts have been made to strengthen RC4, such as RC4A, VMPC, and Spritz, but these variants have also been cryptanalyzed and shown to have weaknesses. As of 2015, there is speculation that state cryptologic agencies may have advanced attacks that can break RC4 even in the context of TLS, making it an insecure choice for modern cryptographic applications.
+## File Structure
+- `arcfour.c`: Contains the implementation of the RC4 cipher.
+- `arcfour.h`: The header file defining the RC4 functions and data structures.
+- `example.c`: A demonstration of the library's usage.
+- `Makefile`: Automates the build process for the library and example program.
 
+---
 
+## Usage
 
-# main article used for reference "(https://en.wikipedia.org/wiki/RC4);
+### Step 1: Clone the Repository
+```bash
+git clone <repository-url>
+cd <repository-directory>
+```
+
+### Step 2: Build the Library and Example Program
+Run the following command:
+```bash
+make
+```
+This will generate:
+- `libarcfour.so`: The shared library.
+- `example`: The example program.
+
+### Step 3: Run the Example Program
+Set the library path to include the current directory:
+```bash
+export LD_LIBRARY_PATH=.:$LD_LIBRARY_PATH
+```
+Run the program:
+```bash
+./example
+```
+
+The program will:
+1. Encrypt a hardcoded plaintext string.
+2. Print the encrypted text in hexadecimal format.
+3. Decrypt the encrypted text and print the original plaintext.
+
+---
+
+## Functions
+
+### `Arcfour *rc4init(int8 *key, int16 size)`
+Initializes the RC4 cipher with the given key.
+- **Parameters**:
+  - `key`: Pointer to the key.
+  - `size`: Size of the key in bytes.
+- **Returns**: A pointer to the initialized RC4 structure.
+
+### `int8 rc4byte(Arcfour *p)`
+Generates the next byte in the RC4 keystream.
+- **Parameters**:
+  - `p`: Pointer to the RC4 structure.
+- **Returns**: The next byte in the keystream.
+
+### `int8 *rc4encrypt(Arcfour *p, int8 *cleartext, int16 size)`
+Encrypts or decrypts data using the RC4 cipher.
+- **Parameters**:
+  - `p`: Pointer to the RC4 structure.
+  - `cleartext`: Pointer to the data to encrypt or decrypt.
+  - `size`: Size of the data.
+- **Returns**: Pointer to the encrypted/decrypted data.
+
+### Macro: `rc4decrypt`
+Defined as:
+```c
+#define rc4decrypt(rc4, data, size) rc4encrypt(rc4, data, size)
+```
+Decrypts data using the same function as encryption.
+
+### Macro: `rc4uninit`
+Frees the memory allocated for the RC4 structure.
+- **Usage**:
+```c
+rc4uninit(rc4);
+```
+
+---
+
+## Example Output
+```
+Inititalising encryption ... done
+'Et tu, Brute?' 
+ -> 4f 5d 6a 31 2b 7e 63 50 28 4c 6f 7d 0a
+Inititalising encryption ... done
+'   ->   Et tu, Brute?'
+```
+
+---
+
+## Cleaning Up
+To clean up the compiled files:
+```bash
+make clean
+```
+This removes all object files, the shared library, and the example program.
+
+---
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## Acknowledgments
+- The RC4 algorithm is attributed to Ron Rivest and was a widely used stream cipher in the past.
+- Special thanks to contributors who help improve this implementation.
+
